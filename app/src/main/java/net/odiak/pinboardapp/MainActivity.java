@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     PostsAdapter mAdapter;
     ListView mListView;
+
+    private boolean mLoadingPosts = false;
 
     private final OkHttpClient client = new OkHttpClient();
 
@@ -61,9 +64,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if ((mAuthToken = AuthManager.getAuthToken(this)) != null) {
-            loadPosts();
-        }
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (visibleItemCount == 0) return;
+                if ((firstVisibleItem + visibleItemCount) >= mAdapter.getCount() - 5) {
+                    loadPosts();
+                }
+            }
+        });
+
+        mAuthToken = AuthManager.getAuthToken(this);
+        loadPosts();
     }
 
     @Override
@@ -110,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadPosts() {
+        if (mLoadingPosts) return;
+
+        mLoadingPosts = true;
         new PostsLoader().execute(new PostsLoaderParams());
     }
 
@@ -209,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(ArrayList<Post> posts) {
             mAdapter.addAll(posts);
+            mLoadingPosts = false;
         }
     }
 }
