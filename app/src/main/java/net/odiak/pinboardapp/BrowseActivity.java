@@ -57,6 +57,10 @@ public class BrowseActivity extends AppCompatActivity {
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
 
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
+
+
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onReceivedTitle(WebView view, String title) {
