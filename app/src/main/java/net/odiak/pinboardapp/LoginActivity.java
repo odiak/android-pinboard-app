@@ -15,7 +15,6 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void handleLoginSuccess(String authToken) {
-        AuthService.saveAuthToken(this, authToken);
+        AuthManager.saveAuthToken(this, authToken);
         startActivity(new Intent(this, MainActivity.class));
     }
 

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-public class AuthService {
+public class AuthManager {
     private final static String PREF_NAME = "authService";
     private final static String PREF_AUTH_TOKEN = "authToken";
 

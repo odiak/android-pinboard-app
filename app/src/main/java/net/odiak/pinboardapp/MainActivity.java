@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if ((mAuthToken = AuthService.getAuthToken(this)) != null) {
+        if ((mAuthToken = AuthManager.getAuthToken(this)) != null) {
             loadPosts();
         }
     }
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        AuthService.saveAuthToken(this, "");
+        AuthManager.saveAuthToken(this, "");
         startActivity(new Intent(this, LoginActivity.class));
     }
 
